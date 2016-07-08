@@ -43,7 +43,12 @@ public class Centrifuge {
 	}
 
 	public double gCalc(int rpm) {
-		return 1.12 * arm * (rpm * rpm / 1000000);
+		rpm=rpm/100*100;
+		return 1.12 * arm * (rpm * rpm / 1000000.);
+	}
+	
+	public int rpmCalc(double g){
+		return 100*(int) Math.round(10*Math.sqrt(g/(1.12*arm)));
 	}
 
 	private void calcPositions() {
@@ -82,11 +87,12 @@ public class Centrifuge {
 	}
 
 	public void setArm(double arm) {
-		this.arm = arm;
+		this.arm = Math.min(999, arm);
 		calcPositions();
 	}
 
 	public void setMass(double m, int position) {
+		m=Math.min(99.9, m);
 		masses.set(position, m);
 	}
 
@@ -186,6 +192,7 @@ public class Centrifuge {
 	}
 
 	public void dummyBalance() {
+		if (calcScore()<0.01) return;
 		int pit = findBestFreePit();
 		if (pit<0) return;
 		double centerWeight = Math.sqrt(calcScore(masses));

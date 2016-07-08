@@ -13,6 +13,8 @@ import javax.swing.JSlider;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Locale;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -47,6 +49,7 @@ public class JMain extends JFrame {
 	 */
 	public JMain() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Locale.setDefault(Locale.ENGLISH);
 		setSize(650, 700);
 		setResizable(false);
 		setVisible(true);
@@ -56,7 +59,7 @@ public class JMain extends JFrame {
 		contentPane.setOpaque(true);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		c = new Centrifuge(1, 20);
+		c = new Centrifuge(10, 20);
 		contentPane.setLayout(null);
 		setBounds((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2-666/2,
 				(int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2)-700/2,
@@ -87,7 +90,7 @@ public class JMain extends JFrame {
 		SliderPits.setPaintLabels(true);
 		SliderPits.setMinorTickSpacing(1);
 		SliderPits.setMinimum(4);
-
+		
 		JButton btnOptimize = new JButton("Balance");
 		btnOptimize.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

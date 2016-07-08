@@ -17,14 +17,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-public class JPit extends JPanel {
+public class JPit extends JFormattedTextField {
 
-	private JFormattedTextField mass;
-	private JLabel lbl;
 	private int pitNumber;
 	private Centrifuge c;
 	private JCentrifuge jC;
-	private final int MAXSIZE = 80;
+	private final int MAXSIZE = 85;
 
 	/**
 	 * Create the panel.
@@ -32,7 +30,6 @@ public class JPit extends JPanel {
 
 	public JPit(int pitNumber, Centrifuge c, JCentrifuge jC) {
 		super();
-		setOpaque(false);
 		this.pitNumber = pitNumber;
 		this.c = c;
 		this.jC = jC;
@@ -42,52 +39,44 @@ public class JPit extends JPanel {
 		nf.setMaximumFractionDigits(3);
 		setLayout(null);
 		final int pitSize = Math.min(MAXSIZE, Math.max(MAXSIZE - c.getPits(), 15));
-		setSize(pitSize * 2, pitSize);
+		setSize(pitSize, pitSize);
 
-		lbl = new JLabel(Integer.toString(pitNumber));
-		lbl.setFont(new Font("Tahoma", Font.PLAIN, Math.max(10, pitSize / 4)));
-		lbl.setBounds(pitSize, 0, pitSize, pitSize);
-		add(lbl);
-		mass = new JFormattedTextField();
-		mass.addMouseListener(new MouseAdapter() {
+
+		setToolTipText(Integer.toString(pitNumber+1));
+		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				mass.setSize(Math.min(MAXSIZE, mass.getWidth() * 2), Math.min(MAXSIZE, mass.getHeight() * 2));
-				setSize(mass.getWidth() * 2, mass.getHeight());
-				mass.setFont(new Font("Tahoma", Font.PLAIN, mass.getHeight()/2));
-				lbl.setBounds(mass.getHeight(), 0, mass.getHeight(), mass.getHeight());
-				mass.grabFocus();
+				int size=Math.min(MAXSIZE, getWidth() * 2);
+				setSize(size, size);
+				setFont(new Font("Tahoma", Font.PLAIN, getHeight()/2));
+				grabFocus();
 			}
 
 			public void mouseExited(MouseEvent e) {
-				mass.setSize(pitSize, pitSize);
-				setSize(mass.getWidth() * 2, mass.getHeight());
-				mass.setFont(new Font("Tahoma", Font.PLAIN, mass.getHeight()/2));
-				lbl.setBounds(pitSize, 0, pitSize, pitSize);
-			}
+				setSize(pitSize, pitSize);
+				setFont(new Font("Tahoma", Font.PLAIN, getHeight()/2));
+				}
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				mass.selectAll();
+				selectAll();
 
 			}
 		});
-		add(mass);
-		mass.setBounds(0, 0, pitSize, pitSize);
-		mass.addFocusListener(new FocusAdapter() {
+		addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
 				double value = 0;
 				try {
-					value = Double.parseDouble(mass.getText());
+					value = Double.parseDouble(getText());
 				} catch (Exception e2) {
 				}
 				setMass(value);
 				refresh();
 			}
 		});
-		mass.setFont(new Font("Tahoma", Font.PLAIN, Math.max(10, pitSize / 2)));
-		mass.setHorizontalAlignment(SwingConstants.TRAILING);
+		setFont(new Font("Tahoma", Font.PLAIN, Math.max(10, pitSize / 2)));
+		setHorizontalAlignment(SwingConstants.TRAILING);
 		refresh();
 	}
 
@@ -96,11 +85,13 @@ public class JPit extends JPanel {
 	}
 
 	public void refresh() {
-		mass.setBackground(
+		setBackground(
 				c.isDummy(pitNumber) ? Color.ORANGE : (c.getMass(pitNumber) == 0 ? Color.WHITE : Color.CYAN));
 		NumberFormat nf = NumberFormat.getInstance();
+		double mass=c.getMass(pitNumber);
 		nf.setGroupingUsed(false);
-		mass.setText(nf.format(c.getMass(pitNumber)));
+		nf.setMaximumFractionDigits((mass>=10?1:2));
+		setText(nf.format(mass));
 		jC.calcScore();
 	}
 }
