@@ -190,14 +190,14 @@ public class JCentrifuge extends JPanel {
 		}
 		c.setArm(value);
 		armLength.setValue(nf.format(c.getArm()));
-		int rpm = 0;
+		int g = 0;
 		try {
-			rpm = Integer.parseInt(speed.getText());
+			g = Integer.parseInt(gForce.getText());
 		} catch (Exception e) {
 		}
 
 		nf.setMaximumFractionDigits(0);
 		nf.setMinimumFractionDigits(0);
-		gForce.setValue(nf.format(c.gCalc(rpm)));
+		speed.setValue(nf.format(c.rpmCalc(g)));
 	}
 }
