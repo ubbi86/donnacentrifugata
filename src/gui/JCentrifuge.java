@@ -92,7 +92,7 @@ public class JCentrifuge extends JPanel {
 		});
 		gForce.setHorizontalAlignment(SwingConstants.TRAILING);
 		gForce.setBounds(getWidth() / 2 + fieldSize, getHeight() / 2 + 100, fieldSize, 50);
-		gForce.setValue("1.1");
+		gForce.setValue("11");
 		gForce.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		add(gForce);
 		
@@ -151,8 +151,8 @@ public class JCentrifuge extends JPanel {
 	public void newGForce() {
 		double value = 0;
 		NumberFormat nf = NumberFormat.getInstance();
-		nf.setMaximumFractionDigits(1);
-		nf.setMinimumFractionDigits(1);
+		nf.setMaximumFractionDigits(0);
+		nf.setMinimumFractionDigits(0);
 		nf.setGroupingUsed(false);
 
 		try {
@@ -160,13 +160,13 @@ public class JCentrifuge extends JPanel {
 		} catch (Exception e) {
 		}
 		gForce.setValue(nf.format(value));
-		nf.setMinimumFractionDigits(0);
 		speed.setValue(nf.format(c.rpmCalc(value)));
 	}
 
 	public void newSpeed() {
 		NumberFormat nf = NumberFormat.getInstance();
-		nf.setMaximumFractionDigits(1);
+		nf.setMaximumFractionDigits(0);
+		nf.setMinimumFractionDigits(0);
 		nf.setGroupingUsed(false);
 		int value = 0;
 		try {
@@ -174,7 +174,6 @@ public class JCentrifuge extends JPanel {
 		} catch (Exception e) {
 		}
 		speed.setValue(nf.format(value / 100 * 100));
-		nf.setMinimumFractionDigits(1);
 		gForce.setValue(nf.format(c.gCalc(value)));
 	}
 
@@ -197,6 +196,8 @@ public class JCentrifuge extends JPanel {
 		} catch (Exception e) {
 		}
 
+		nf.setMaximumFractionDigits(0);
+		nf.setMinimumFractionDigits(0);
 		gForce.setValue(nf.format(c.gCalc(rpm)));
 	}
 }
