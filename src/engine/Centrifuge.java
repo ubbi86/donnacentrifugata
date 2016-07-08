@@ -192,13 +192,18 @@ public class Centrifuge {
 	}
 
 	public void dummyBalance() {
-		if (calcScore()<0.01) return;
+		double score=calcScore();
+		if (score<0.01) return;
 		int pit = findBestFreePit();
 		if (pit<0) return;
 		double centerWeight = Math.sqrt(calcScore(masses));
 		if (centerWeight<0.01) return;
 		double distance = centerMass(masses).normalize().magnitude();
 		setMass(centerWeight * distance, pit);
+		if (calcScore()>score){
+			setMass(0d, pit);
+			return;
+		}
 		dummies.set(pit, true);
 	}
 
