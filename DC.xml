@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>K:\donnacentrifugata\DonnaCentrifugata.jar</jar>
-  <outfile>C:\Users\F_Massimino@NTT\Desktop\DonnaCentrifugata.exe</outfile>
+  <outfile>K:\donnacentrifugata\DonnaCentriFugata.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
